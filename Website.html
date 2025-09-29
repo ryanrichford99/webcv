@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryan's Personal Website</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+    :root {
+      --primary-color: #1e3a8a;
+      --secondary-color: #64748b;
+      --text-color: #f5f5f5; /* improved contrast for white/grey backgrounds */
+      --overlay-bg: rgba(0, 0, 0, 0.6);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --hover-shadow: rgba(0, 0, 0, 0.2);
+      --heading-color: #0a2540; /* deep blue for headings */
+      --accent-color: #ffb400; /* gold accent for highlights */
+    }
+
+    html {
+      box-sizing: border-box;
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: min(1.2vw, 18px); /* base font scales with viewport width */
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: var(--text-color);
+      line-height: 1.6;
+      width: 100vw;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      align-items: stretch;
+      justify-items: stretch;
+      font-size: 1rem; /* inherit from html */
+    }
+
+    .main-table {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      grid-template-columns: 1fr;
+      width: 100vw;
+      min-height: 100vh;
+      height: 100%;
+    }
+
+    .hero,
+    .background-section,
+    .cv-section {
+      width: 100vw;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .hero-content,
+    .blur-wrapper,
+    .cv-overlay {
+      width: 100%;
+      max-width: 70vw;
+      margin: auto;
+      box-sizing: border-box;
+      display: grid;
+      justify-items: center;
+    }
+
+    .hero {
+      background-image: url('londontop.png');
+      background-size: cover;
+      background-position: center;
+      padding: 5rem 1rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+      display: inline-block;
+      padding: 1.2rem 1.5rem; /* reduced from 2rem */
+      border-radius: 10px; /* slightly smaller */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .hero img {
+      width: 10vw;
+      min-width: 80px;
+      max-width: 180px;
+      height: 10vw;
+      min-height: 80px;
+      max-height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1,
+    .card h2,
+    .cv-overlay h2 {
+      color: var(--heading-color);
+      font-family: 'Bebas Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 3rem;
+      color: #fff; /* white */
+    }
+
+    .hero h2,
+    .link-box h3 {
+      color: var(--accent-color);
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #dbeafe;
+    }
+
+    .background-section {
+      background-image: url('londontop.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1;
+    }
+
+    .blur-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 3rem 1rem;
+      background: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .overlay {
+      max-width: 80vw;
+      margin: auto;
+      display: grid;
+      gap: 2rem;
+      position: static;
+      background: rgba(255,255,255,0.92);
+      border-radius: 1vw;
+      box-shadow: 0 6px 24px rgba(30,58,138,0.10);
+      padding: 2vw 2vw;
+    }
+
+    .card {
+      background: var(--card-bg);
+      color: var(--heading-color);
+      padding: 2vw;
+      border-radius: 1vw;
+      box-shadow: 0 4px 8px var(--hover-shadow);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px var(--hover-shadow);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 2.5vw;
+    }
+
+    ul.skills {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    ul.skills li {
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .link-boxes {
+      display: grid;
+      gap: 1vw;
+      grid-template-columns: repeat(auto-fit, minmax(18vw, 1fr));
+    }
+
+    .link-box {
+      flex: 1;
+      min-width: 18vw;
+      background: var(--card-bg);
+      padding: 1vw;
+      border-radius: 1vw;
+      box-shadow: 0 2px 6px var(--hover-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .link-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px var(--hover-shadow);
+    }
+
+    .link-box h3 {
+      margin-top: 0;
+      color: var(--secondary-color);
+      font-size: 1.5vw;
+    }
+
+    .link-box a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .link-box a:hover {
+      text-decoration: underline;
+    }
+
+    .cv-section {
+      background-image: url('londontop.png');
+      background-size: cover;
+      background-position: center;
+      padding: 0;
+    }
+
+    .cv-overlay {
+      padding: 1.5rem;
+      border-radius: 10px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .cv-overlay h2 {
+      font-size: 3vw;
+      color: white;
+      margin-bottom: 1vw;
+    }
+
+    .cv-image {
+      width: 60vw;
+      max-width: 1000px;
+      min-width: 300px;
+      height: auto;
+      border: 4px solid white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px var(--hover-shadow);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .link-box ul {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block;
+    }
+    .link-box:hover ul {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .blog-education .education-dropdown {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 1.2s cubic-bezier(0.4,0,0.2,1), opacity 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .blog-education:hover .education-dropdown {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    @media (max-width: 1200px) {
+      .hero-content,
+      .blur-wrapper,
+      .cv-overlay {
+        max-width: 95vw;
+      }
+      .overlay {
+        max-width: 95vw;
+      }
+    }
+
+    @media (max-width: 600px) {
+      html {
+        font-size: 16px;
+      }
+      .hero-content,
+      .blur-wrapper,
+      .cv-overlay {
+        max-width: 100vw;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      .overlay {
+        max-width: 100vw;
+        gap: 1rem;
+      }
+      .card h2 {
+        font-size: 1.5rem;
+      }
+      .cv-overlay h2 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (min-width: 1600px) {
+      html {
+        font-size: 20px;
+      }
+      .hero-content,
+      .blur-wrapper,
+      .cv-overlay {
+        max-width: 1400px;
+      }
+      .cv-image {
+        max-width: 1400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-table">
+    <section class="hero">
+      <div class="hero-content">
+        <img src="your-image.jpg" alt="Your Photo" />
+        <h1>Ryan George Richford</h1>
+        <h2>Cyber Security Analyst and Information Tech Professional</h2>
+        <h3>Linkdinn: linkedin.com/in/ryanrichford | Email: ryanrichfordwork@outlook.com | Mobile: 07469995092</h3>
+      </div>
+    </section>
+    <section class="background-section">
+      <div class="blur-wrapper">
+        <div class="overlay">
+          <section class="card">
+            <h2>About Me</h2>
+            <p>
+              Security Operations Analyst at Open Banking | SOC Operations | Network Security | Incident Analysis | CSIRT | MISP | SIEM | Cloud Security | Service Management | IAM | Information Security
+            </p>
+            <div style="margin-bottom:1.5rem;">
+              <h3 style="color:#1e3a8a; margin-bottom:0.5rem;">Professional Journey</h3>
+              <div style="margin-bottom:1rem;">
+                <strong style="color:#64748b;">GÉANT</strong><br>
+                <span style="font-size:1rem; color:#222;">Founding member of the Security Operations Centre (SOC), architecting its infrastructure and operational framework from the ground up. Helped lay the foundation for robust cyber defense, integrating threat detection, DDoS mitigation, anomaly analysis, and incident response. Leveraged my BSc in Cyber Security from De Montfort University to configure security tools, deploy MISP and SIEM platforms, and design scalable processes for CSIRT operations.</span>
+              </div>
+              <div>
+                <strong style="color:#64748b;">Open Banking</strong><br>
+                <span style="font-size:1rem; color:#222;">Transitioned into the financial technology sector as a Security Operations Analyst. Deepened expertise in enterprise-grade security tooling and proactive threat management. Responsibilities include SIEM tuning, log correlation, advanced threat hunting (Microsoft Defender XDR), data governance (Microsoft Purview), and identity protection (Microsoft Entra). This role has sharpened my ability to respond to emerging threats with agility, precision, and strategic foresight—while continuously evolving detection capabilities and operational resilience.</span>
+              </div>
+            </div>
+            <div class="link-boxes">
+              <div class="link-box">
+                <h3>Professional Experience</h3>
+                <p>Take a look at my previous professional experience and roles:</p>
+                <a href="#">View Previous Roles →</a>
+                <ul style="text-align:left; margin: 0 auto; max-width: 90%;">
+                  <li>
+                    <strong>Security Operations Analyst</strong> <br>
+                    <span style="color:#64748b;">Open Banking · Full-time · Jul 2025 - Present · London Area, United Kingdom · Hybrid</span>
+                  </li>
+                  <li>
+                    <strong>Security Operations Engineer</strong> <br>
+                    <span style="color:#64748b;">GÉANT · Full-time · Mar 2023 - Jul 2025 · Cambridge, England, United Kingdom · Hybrid</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="link-box">
+                <h3>Certifications</h3>
+                <p>Here is a full list of my professional certifications:</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <a href="#" style="color:#1e3a8a; font-weight:bold;">See Certifications →</a>
+                </div>
+                <ul style="text-align:left; margin: 0 auto; max-width: 90%;">
+                  <li>
+                    <strong>CompTIA Secure Infrastructure Specialist</strong><br>
+                    <span style="color:#64748b;">Issued Feb 2025 · Expires Feb 2028</span>
+                  </li>
+                  <li>
+                    <strong>CompTIA Security+ ce Certification</strong><br>
+                    <span style="color:#64748b;">Issued Feb 2025 · Expires Feb 2028</span>
+                  </li>
+                  <li>
+                    <strong>CompTIA IT Operations Specialist</strong><br>
+                    <span style="color:#64748b;">Issued Dec 2024 · Expires Dec 2027</span>
+                  </li>
+                  <li>
+                    <strong>CompTIA Network+ ce Certification</strong><br>
+                    <span style="color:#64748b;">Issued Dec 2024 · Expires Dec 2027</span>
+                  </li>
+                  <li>
+                    <strong>ITIL 4 Foundation Certificate in IT Service Management</strong><br>
+                    <span style="color:#64748b;">Issued Nov 2024 · Expires Nov 2027</span>
+                  </li>
+                  <li>
+                    <strong>SOC Level 1 Certificate - TryHackMe</strong><br>
+                    <span style="color:#64748b;">Issued Sep 2024</span>
+                  </li>
+                  <li>
+                    <strong>Microsoft Certified: Azure Fundamentals</strong><br>
+                    <span style="color:#64748b;">Issued Aug 2024</span>
+                  </li>
+                  <li>
+                    <strong>Linux Essentials Certification - Linux Professional Institute</strong><br>
+                    <span style="color:#64748b;">Issued Jul 2024 · Expires Jan 2027</span>
+                  </li>
+                  <li>
+                    <strong>CompTIA A+ ce Certification</strong><br>
+                    <span style="color:#64748b;">Issued Sep 2023 · Expires Sep 2026</span>
+                  </li>
+                  <li>
+                    <strong>TF-CSIRT Transits 1</strong><br>
+                    <span style="color:#64748b;">Issued Apr 2023 · Expired Dec 2024</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="link-box">
+                <h3>Get in Touch</h3>
+                <h4 style="font-weight:400;">Feel free to reach out to me through any of the following methods:</h4>
+                <a href="#" style="color:#1e3a8a; font-weight:bold; display:inline-block; margin-bottom:0.7rem;">About Me →</a>
+                <ul style="text-align:left; margin: 0 auto; max-width: 90%;">
+                  <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/ryanrichford" style="color:#1e3a8a; text-decoration:underline;">linkedin.com/in/ryanrichford</a></li>
+                  <li><strong>Email:</strong> <a href="mailto:ryanrichfordwork@outlook.com" style="color:#1e3a8a; text-decoration:underline;">ryanrichfordwork@outlook.com</a></li>
+                  <li><strong>Mobile:</strong> <a href="tel:07469995092" style="color:#1e3a8a; text-decoration:underline;">07469995092</a></li>
+                  <li><strong>Location:</strong> London, UK (Hybrid/Remote available)</li>
+                </ul>
+              </div>
+              <div class="link-box blog-education">
+                <h3>See Previous Education</h3>
+                <p>Read my latest thoughts on cyber security, technology, and industry trends.</p>
+                <a href="#" style="color:#1e3a8a; font-weight:bold; display:inline-block; margin-bottom:0.7rem;">See Education →</a>
+                <ul class="education-dropdown" style="text-align:left; margin: 0 auto; max-width: 90%;">
+                  <li><strong>De Montfort University</strong></li>
+                  <li>Bachelor of Science - BSC, Cyber Security</li>
+                  <li>Sep 2019 - Aug 2022</li>
+                  <li>Grade: First Year (Grade 2.1), Second Year (Grade 1st), Final Year (Grade 2.1)</li>
+                  <li>C Programming I & II, Computer Ethics, Computer Law & Cyber Security Management, Computer Systems, Computer Networks, Mathematics for Computation, Database Design & Implementation, Introduction to Research, Digital Forensics, Web Application Development, Linux Security, Cryptography, Cyber Threat Intelligence & Incident Response, Software & Security Management, Penetration Testing, Developmental Project I & II, Digital Investigations, Emerging Topics in Cyber Security, Computer Ethics and Privacy, Industry Control Systems, Professionalism in Forensics, Malware Analysis.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section class="card">
+            <h2>Skills</h2>
+            <ul class="skills">
+              <li>Security Operations Analyst at Open Banking</li>
+              <li>SOC Operations</li>
+              <li>Network Security</li>
+              <li>Incident Analysis</li>
+              <li>CSIRT</li>
+              <li>MISP</li>
+              <li>SIEM</li>
+              <li>Cloud Security</li>
+              <li>Service Management</li>
+              <li>IAM</li>
+              <li>Information Security</li>
+              <li>Security Operations</li>
+              <li>Security Incident Response</li>
+              <li>Threat & Vulnerability Management</li>
+              <li>IT Security Policies & Procedures</li>
+              <li>Data Analysis</li>
+              <li>Security Monitoring</li>
+              <li>Vulnerability</li>
+              <li>Wireshark</li>
+              <li>Application Security</li>
+              <li>Cyber-security</li>
+              <li>Vulnerability Management</li>
+              <li>Incident Response</li>
+              <li>Organizational Development</li>
+              <li>Linux</li>
+              <li>Red Hat Linux</li>
+              <li>Kali Linux</li>
+              <li>Microsoft Azure</li>
+              <li>IT Operations</li>
+              <li>Enterprise Software</li>
+              <li>Computer Hardware</li>
+              <li>Incident Reporting</li>
+              <li>Team Coordination</li>
+              <li>Cybersecurity</li>
+              <li>Cyber Defense</li>
+              <li>Cooperation</li>
+              <li>Training Delivery</li>
+              <li>Vulnerability Scanning</li>
+              <li>ADS</li>
+              <li>DDoS Mitigation</li>
+              <li>Presentation Skills</li>
+              <li>Research</li>
+              <li>Project Management</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="cv-section">
+      <div class="cv-overlay">
+        <h2>My CV</h2>
+        <img src="cvimage.png" alt="Ryan Smith CV" class="cv-image" />
+      </div>
+    </section>
+  </div>
+</body>
+</html>
+
